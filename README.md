@@ -3,7 +3,7 @@
 ![logo](./logo.svg)
 Backend Inventory and asset management system for a non disclosed company
 
-### MVP
+## <!--    ...    -->MVP<!-- ... -->
 
 #### Requirements
 
@@ -15,17 +15,66 @@ Backend Inventory and asset management system for a non disclosed company
 - User will enter parts in the order they are on the shelves
   - Use an array to store location [rack(or wall), Shelve, Position(from left to right)]
 
-### Data Structures
+## Data Structures
 
-#### Location
+#### Store
+
+- Store ID
+- Store Location
+  - Address
+  - Coordinates (allow for efficient part transferring between stores in the future)
+- Inventory Order
+- Part Order List
+- Inventory Logs
 
 #### User
 
-#### Inventory???
+- Position
+- Permissions
+- Password
+- Certification (eventually allow mechanics to be assigned tasks based on their capabilities)
+
+#### Inventory Logs
+
+- Location of generated excel file
+- Variations from expected count
 
 #### Part
 
-## Version Stage Planning
+- Part number
+- Part Image URL
+- Part Description
+
+## <!--    ...    -->Functions<!-- ... -->
+
+- Part
+  - Add Part
+  - Remove Part
+  - Patch Part Info
+  - Patch Part Photo
+  - Delete Part Photo
+  - Edit Part Location
+  - Get Part
+- Inventory
+  - Add Count
+  - Postpone Count
+    - Skip count until the end(come back to that part later)
+  - Patch Count
+  - Delete Count(not sure if I want this for abuse maybe manager only)
+  - Get Count
+  - Process Count
+    - When Finished Counting all items it will CLOSE the inventory
+    - Compare expected part count to actual part count
+    - No longer allow basic mechanics to change
+  - Send Count
+    - Will notify Manager count has been complete
+      -eventually add a time the count has been running
+    - Email produced spread sheet to the person that needs it
+- Part Order List
+  - Upload part list
+    - pulls apart part list provided to create a new order of parts
+
+## <!--    ...     -->Version Stage Planning<!-- ... -->
 
 ### ideas, no scheduled version yet
 

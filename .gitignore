@@ -9,7 +9,7 @@
 /nodemon.json
 # testing
 /coverage
-
+/data/KartInvList.xlsx
 # production
 /build
 
