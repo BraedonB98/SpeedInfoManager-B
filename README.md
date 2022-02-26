@@ -1,7 +1,8 @@
 # SpeedInfoManager-B
 
 ![logo](./logo.svg)
-Backend Inventory and asset management system for a non disclosed company
+
+###### Backend Inventory and asset management system for a non disclosed company
 
 ## <!--    ...    -->MVP<!-- ... -->
 
