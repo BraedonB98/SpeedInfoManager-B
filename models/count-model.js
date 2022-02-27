@@ -10,6 +10,7 @@ const countSchema = new Schema({
     variation: [{ type: String }],
   },
   creator: { type: mongoose.Types.ObjectId, ref: "User" },
+  store: { type: mongoose.Types.ObjectId, ref: "Store" },
   notes: { type: String, required: true },
   status: {
     toCount: [{ type: String }], //to allow for various types of part numbers includeing with letters.
