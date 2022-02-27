@@ -24,8 +24,8 @@
 - Store Location
   - Address
   - Coordinates (allow for efficient part transferring between stores in the future)
-- Inventory Order
-- Part Order List
+- Inventory Order (3D array representing item locations) [Rack # (left to right), Shelve (from bottom to top), Position (left to right) ]
+- Part List (in order they want the print out)
 - Inventory Logs
 
 #### User
@@ -35,10 +35,15 @@
 - Password
 - Certification (eventually allow mechanics to be assigned tasks based on their capabilities)
 
-#### Inventory Logs
+#### Inventory Logs(Count)
 
-- Location of generated excel file
-- Variations from expected count
+- Count finished?
+  - Location of generated excel file
+  - Variations from expected count
+- User Who took count
+- [] Postpone array containing all items user has postponed so far
+- [] To Count
+- [] Need To Count
 
 #### Part
 
