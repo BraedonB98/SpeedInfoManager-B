@@ -54,7 +54,6 @@ app.use((req, res, next) => {
 // });
 
 //------------------Mongo------------------------
-
 mongoose
   .connect(
     `mongodb+srv://${process.env.MongoDB_User}:${process.env.MongoDB_Password}@${process.env.MongoDB_Server}/${process.env.MongoDB_DBName}?retryWrites=true&w=majority`
