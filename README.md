@@ -41,6 +41,7 @@
   - Location of generated excel file
   - Variations from expected count
 - User Who took count
+- notes
 - [] Postpone array containing all items user has postponed so far
 - [] To Count
 - [] Need To Count
