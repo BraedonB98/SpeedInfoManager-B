@@ -10,7 +10,7 @@ router.post("/login", userController.login);
 
 router.use(checkAuth); // every route after this requires an token
 
-router.post("/createuser", userController.createUser); //I dont want a user to be able to create a profile unless they are an admin
+router.post("/addUser", userController.createUser); //Will create a "user" based on username, will set password to LastName, FirstName, no spaces until they sign in the first time
 
 router.patch(
   "/:uid/info/photo",
