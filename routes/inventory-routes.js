@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.use(checkAuth); // every route after this requires an token
 
-router.post("/count", inventoryController.createCount); //starts new count
+router.post("/count/:sid", inventoryController.createCount); //starts new count
 
-router.patch("/count/item", inventoryController.countNext); //sets item count and returns next part in count
+router.patch("/count/item", inventoryController.countNext); //sets item count and returns next part in count if the part has already been counted update that part count and return next item
 
 router.patch("/count", inventoryController.editEntireCount); //manager only, edit entire count item
 

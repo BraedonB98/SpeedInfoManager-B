@@ -21,12 +21,12 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE"); //Second values are what types of requests you want to accept
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
 });
 
 //-----------------Known Routes--------------------------
-app.use("/api/inventory", inventory); // /api/UID...
+app.use("/api/inventory", inventory);
 //allows for a different body parser for sms so you can read messages
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.use("/sms", smsRoutes);
