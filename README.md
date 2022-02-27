@@ -51,6 +51,7 @@
 - Part number
 - Part Image URL
 - Part Description
+- Discontinued
 
 ## <!--    ...    -->Functions<!-- ... -->
 
