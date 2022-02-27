@@ -90,7 +90,7 @@
 - give cost estimates of parts
 - give managers access to "lost" parts
 - keep track of karts at each store
-- Allow track employees to use a "STUPID" cart diagnostics tool to allow the mechanics to keep track of issues with carts
+- Allow track employees to use a "STUPID PROOF" cart diagnostics tool to allow the mechanics to keep track of issues with carts
 - Assign mechanics task based on priority and their technical knowledge.
 - Allow managers to view states of all current carts and what is needed on each
 - Allow managers to view the number of carts in service

@@ -4,7 +4,7 @@ const inventoryController = require("../controllers/inventory-controller");
 const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
 
-router.use(checkAuth); // every route after this requires an token
+//router.use(checkAuth); // every route after this requires an token
 
 router.post("/count/:sid", inventoryController.createCount); //starts new count
 
