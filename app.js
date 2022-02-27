@@ -11,6 +11,8 @@ const app = express();
 
 //-------------------Routes-----------------------
 const inventory = require("./routes/inventory-routes");
+const store = require("./routes/store-routes");
+const user = require("./routes/user-routes");
 
 //-----------------MiddleWare--------------------
 app.use(bodyParser.json());
@@ -27,6 +29,8 @@ app.use((req, res, next) => {
 
 //-----------------Known Routes--------------------------
 app.use("/api/inventory", inventory);
+app.use("/api/store", store);
+app.use("/api/user", user);
 //allows for a different body parser for sms so you can read messages
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.use("/sms", smsRoutes);
