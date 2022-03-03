@@ -5,14 +5,15 @@ const Schema = mongoose.Schema;
 const countSchema = new Schema({
   name: { type: String },
   creationDate: { type: Date },
-  lastEditedDate: { type: Date },
+  editLog: [
+    { type: Date, type: mongoose.Types.ObjectId, ref: "User", type: String },
+  ],
   //ID
   complete: {
     spreadSheetLocation: { type: String },
     //variation: [{ type: String }], //I think I will want this stored in the store object
   },
   creator: { type: mongoose.Types.ObjectId, ref: "User" },
-  userInteraction: [{ type: mongoose.Types.ObjectId, ref: "User" }],
   store: { type: mongoose.Types.ObjectId, ref: "Store" },
   notes: { type: String },
   status: {
