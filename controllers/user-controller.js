@@ -32,6 +32,38 @@ getUserByEID = async (eid) => {
   }
   return user;
 };
+
+const getUserById = async (uid) => {
+  let user;
+  if (uid === null) {
+    return {
+      error: error,
+      errorMessage: "no uid provided",
+      errorCode: 400,
+    };
+  }
+  if (typeof uid === "string") {
+    var ObjectID = require("mongodb").ObjectID;
+    uid = new ObjectID(uid);
+  }
+  try {
+    user = await User.findById(uid);
+  } catch (error) {
+    return {
+      error: error,
+      errorMessage: "Could not access user in database",
+      errorCode: 500,
+    };
+  }
+  if (!user) {
+    return {
+      error: true,
+      errorMessage: "User not in database",
+      errorCode: 404,
+    };
+  }
+  return user;
+};
 //----------------------Check Permissions----------------------
 
 //----------------------Controllers-------------------------
@@ -99,6 +131,7 @@ const addUser = async (req, res, next) => {
     phoneNumber,
     jobCode,
     permissions,
+    password,
   } = req.body; //will set password automatically to employeeId
 
   //! check if user creating account has permissions
@@ -124,7 +157,7 @@ const addUser = async (req, res, next) => {
 
   let hashedPassword;
   try {
-    hashedPassword = await bcrypt.hash(employeeId, 12); //12 is the number of salting rounds(how secure)
+    hashedPassword = await bcrypt.hash(password, 12); //12 is the number of salting rounds(how secure)
   } catch (error) {
     return next(new HttpError("Could not set password correctly", 500));
   }
@@ -139,7 +172,7 @@ const addUser = async (req, res, next) => {
     email,
     phoneNumber: "+1" + phoneNumber,
     password: hashedPassword,
-
+    employeeId,
     certifications: [],
     permissions,
   });
@@ -160,7 +193,6 @@ const addUser = async (req, res, next) => {
     jobCode: createdUser.jobCode,
     permissions: createdUser.permissions,
     id: createdUser._id,
-    token: token,
     imageUrl: createdUser.imageUrl,
   };
 
