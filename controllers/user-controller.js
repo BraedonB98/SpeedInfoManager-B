@@ -152,8 +152,6 @@ const addUser = async (req, res, next) => {
     password,
   } = req.body; //will set password automatically to employeeId
 
-  //! check if user creating account has permissions
-
   //Checking if user already has account
   let existingUser;
   try {
