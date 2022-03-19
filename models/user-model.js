@@ -13,7 +13,12 @@ const userSchema = new Schema({
   phoneNumber: { type: String },
   password: { type: String },
   certifications: [{ type: String }],
-  permissions: [{ type: String }],
+  permissions: [
+    {
+      storeId: { type: String },
+      accessLevel: { type: String },
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", userSchema);

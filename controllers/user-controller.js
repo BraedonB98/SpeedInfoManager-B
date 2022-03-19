@@ -150,7 +150,21 @@ const addUser = async (req, res, next) => {
     return next(new HttpError("Creating user failed", 500));
   }
 
-  res.json({ id: createdUser._id, email: createdUser.email });
+  const userRestricted = {
+    firstName: createdUser.firstName,
+    lastName: createdUser.lastName,
+    preferredName: createdUser.lastName,
+    employeeId: createdUser.employeeId,
+    email: createdUser.email,
+    phoneNumber: createdUser.phoneNumber,
+    jobCode: createdUser.jobCode,
+    permissions: createdUser.permissions,
+    id: createdUser._id,
+    token: token,
+    imageUrl: createdUser.imageUrl,
+  };
+
+  res.json(userRestricted);
 };
 
 exports.login = login;
