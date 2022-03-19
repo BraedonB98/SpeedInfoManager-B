@@ -6,9 +6,9 @@ const checkAuth = require("../middleware/check-auth");
 
 const router = express.Router();
 
-router.post("/createStore", storeController.createStore);
+router.use(checkAuth); // every route after this requires an token
 
-//router.use(checkAuth); // every route after this requires an token
+router.post("/createStore", storeController.createStore);
 
 router.patch("/Store/:sid", storeController.editStore);
 

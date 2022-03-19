@@ -42,19 +42,6 @@ const createCount = async (req, res, next) => {
       postponed: [], //nothing has been postponed yet
     },
   });
-
-  if (address) {
-    let location;
-    try {
-      location = await getCoordsForAddress(address);
-      newItem.address = location.address;
-      newItem.location = location.coordinates;
-    } catch (error) {
-      return next(
-        new HttpError("Could not access cordinates for that address", 502)
-      );
-    }
-  }
 };
 
 const countNext = async (req, res, next) => {};

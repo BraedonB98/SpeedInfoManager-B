@@ -14,9 +14,8 @@ const storeSchema = new Schema({
   countOrder: [[[{ type: String }]]], //3D array [Rack # (left to right), Shelve (from bottom to top), Position (left to right) ]
   inventoryOrder: [{ type: String }], //the order the excel sheet should be generated in
   notes: { type: String },
-  status: { type: String }, //Discontinued, Out Of Stock, In Stock
   activeInventoryCount: { type: mongoose.Types.ObjectId, ref: "Count" },
-  inventoryCountHistory: { type: mongoose.Types.ObjectId, ref: "Count" },
+  inventoryCountHistory: [{ type: mongoose.Types.ObjectId, ref: "Count" }],
 });
 
 module.exports = mongoose.model("Store", storeSchema);

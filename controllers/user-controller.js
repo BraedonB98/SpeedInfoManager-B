@@ -64,7 +64,6 @@ const getUserById = async (uid) => {
   }
   return user;
 };
-//----------------------Check Permissions----------------------
 
 //----------------------Controllers-------------------------
 
@@ -122,6 +121,25 @@ const login = async (req, res, next) => {
 };
 
 const addUser = async (req, res, next) => {
+  const uid = req.userData.id;
+  let user = await getUserById(uid);
+  console.log(user);
+  if (!!user.error) {
+    return next(new HttpError(user.errorMessage, user.errorCode));
+  }
+  let accessLevel = false;
+  //checking if user has permission to create store
+  user.permissions.map((permission) => {
+    if (permission.storeId === "0" && permission.accessLevel === "admin") {
+      accessLevel = true;
+    }
+  });
+  if (!accessLevel) {
+    return next(
+      new HttpError("You dont have permission to create a store", 401)
+    );
+  }
+
   const {
     firstName,
     lastName,
@@ -201,3 +219,5 @@ const addUser = async (req, res, next) => {
 
 exports.login = login;
 exports.addUser = addUser;
+exports.getUserById = getUserById;
+exports.getUserByEID = getUserByEID;
