@@ -29,7 +29,7 @@ const createCount = async (req, res, next) => {
 
   //Create Count
   const count = new Count({
-    name,
+    name, 
     creationDate: new Date(new Date().getTime()),
     editLog: [{ time: new Date(new Date().getTime()), user: uid }],
     creator: uid,
