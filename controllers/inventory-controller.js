@@ -17,14 +17,12 @@ const createCount = async (req, res, next) => {
   //dont need to check for duplicates because they are ok
   const { name, sid, notes } = req.body; //creator and users[0]= uid
   uid = req.userData._id;
-  //Find User
-  // let user = await getUserById(uid);
-  // if (!!user.error) {
-  //   return next(new HttpError(user.errorMessage, user.errorCode));
-  // }
-  //Get Store
+ 
+  //!Get Store
 
-  //Get Store Item List
+  //!make sure the store doest have an "open count"
+
+  //!Get Store Item List
   const StoreItemList = []; //!Put store item list in this variable
 
   //Create Count
@@ -38,10 +36,19 @@ const createCount = async (req, res, next) => {
     store: sid,
     status: {
       toCount: StoreItemList, //!list of all parts listed at store
-      counted: [], //nothing has been counted yet
+      counted: [], //nothing has been counted yets
       postponed: [], //nothing has been postponed yet
     },
   });
+ //Sending new count to DB
+ try {
+  await count.save();
+  //! add count to store count array
+} catch (error) {
+  return next(new HttpError("Creating count failed", 500));
+}
+
+
 };
 
 const countNext = async (req, res, next) => {};
