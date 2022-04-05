@@ -17,10 +17,7 @@ const user = require("./routes/user-routes");
 //-----------------MiddleWare--------------------
 app.use(bodyParser.json());
 
-app.use(
-  "/data/images",
-  express.static(path.join("data", "frontEndRef", "images"))
-);
+app.use("/data/images", express.static(path.join("data", "images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); //Access-control-Allow-Origin required to let browser use api, the the * can be replaced by urls (for the browser) that are allowed to use it
