@@ -19,12 +19,26 @@ const createCount = async (req, res, next) => {
   const { name, sid, notes } = req.body; //creator and users[0]= uid
   uid = req.userData._id;
 
-  //!Get Store
+  //Get Store
+  var store;
+  try {
+    store = await Store.findOne({ storeNumber: sid });
+  } catch (error) {
+    return next(new HttpError("Could not locate store with store # ", 500));
+  }
+  //!make sure user has credentials to open a count
+  //making sure the store doest have an "open count"
+  if (store.activeInventoryCount) {
+    return next(
+      new HttpError(
+        "Already have an open inventory count, Please finish open count before proceeding",
+        400
+      )
+    );
+  }
 
-  //!make sure the store doest have an "open count"
-
-  //!Get Store Item List
-  const StoreItemList = []; //!Put store item list in this variable
+  //Get Store Item List
+  const StoreItemList = [store.inventoryOrder];
 
   //Create Count
   const count = new Count({
@@ -36,15 +50,20 @@ const createCount = async (req, res, next) => {
     notes,
     store: sid,
     status: {
-      toCount: StoreItemList, //!list of all parts listed at store
-      counted: [], //nothing has been counted yets
+      toCount: StoreItemList,
+      counted: [], //nothing has been counted yet
       postponed: [], //nothing has been postponed yet
     },
   });
+
   //Sending new count to DB
   try {
-    await count.save();
-    //! add count to store count array
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await count.save({ session: sess });
+    store.activeInventoryCount = count._id;
+    await store.save({ session: sess });
+    await sess.commitTransaction();
   } catch (error) {
     return next(new HttpError("Creating count failed", 500));
   }
