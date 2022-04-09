@@ -20,4 +20,6 @@ router.get("/count/postpone", inventoryController.postponeCount); //takes item o
 
 router.get("/count/:cid", inventoryController.getCount); //gets specific count by id
 
+router.patch("/undoCount", inventoryController.undoCount); //undoes the last nextCount submitted
+
 module.exports = router;

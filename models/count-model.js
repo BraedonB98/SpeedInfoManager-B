@@ -19,7 +19,12 @@ const countSchema = new Schema({
   status: {
     toCount: [{ type: String }], //to allow for various types of part numbers including with letters.
     //!- will then have a function that searches though database of parts for the one that is requested
-    counted: [{ type: String }],
+    counted: [
+      {
+        partNumber: { type: String },
+        value: { type: Integer },
+      },
+    ],
     postponed: [{ type: String }],
   },
 });
