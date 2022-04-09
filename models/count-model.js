@@ -22,7 +22,7 @@ const countSchema = new Schema({
     counted: [
       {
         partNumber: { type: String },
-        value: { type: Integer },
+        value: { type: Number },
       },
     ],
     postponed: [{ type: String }],

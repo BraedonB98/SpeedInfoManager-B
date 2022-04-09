@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 //sgMail.setApiKey(process.env.SendGridApi_Key);
 
 //------------------Modules--------------------------
-
+const userController = require("../controllers/user-controller");
+const getUserById = userController.getUserById;
 //------------------Models------------------------------
 const HttpError = require("../models/http-error");
 const Count = require("../models/count-model");
