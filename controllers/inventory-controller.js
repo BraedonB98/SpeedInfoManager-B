@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 //------------------Models------------------------------
 const HttpError = require("../models/http-error");
 const Count = require("../models/count-model");
+const Store = require("../models/store-model");
 
 //-----------------------HelperFunctions-----------------------
 
@@ -17,7 +18,7 @@ const createCount = async (req, res, next) => {
   //dont need to check for duplicates because they are ok
   const { name, sid, notes } = req.body; //creator and users[0]= uid
   uid = req.userData._id;
- 
+
   //!Get Store
 
   //!make sure the store doest have an "open count"
@@ -27,7 +28,7 @@ const createCount = async (req, res, next) => {
 
   //Create Count
   const count = new Count({
-    name, 
+    name,
     creationDate: new Date(new Date().getTime()),
     editLog: [{ time: new Date(new Date().getTime()), user: uid }],
     creator: uid,
@@ -40,15 +41,13 @@ const createCount = async (req, res, next) => {
       postponed: [], //nothing has been postponed yet
     },
   });
- //Sending new count to DB
- try {
-  await count.save();
-  //! add count to store count array
-} catch (error) {
-  return next(new HttpError("Creating count failed", 500));
-}
-
-
+  //Sending new count to DB
+  try {
+    await count.save();
+    //! add count to store count array
+  } catch (error) {
+    return next(new HttpError("Creating count failed", 500));
+  }
 };
 
 const countNext = async (req, res, next) => {};
