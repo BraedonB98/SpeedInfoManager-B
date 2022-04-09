@@ -149,6 +149,7 @@ const getCount = async (req, res, next) => {
 };
 
 const undoCount = async (req, res, next) => {
+  //removes previous nextCount
   const { pid, cid, counted } = req.body; //pid = part number cid = count id
   uid = req.userData._id;
   var count;
