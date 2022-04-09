@@ -15,7 +15,6 @@ const createStore = async (req, res, next) => {
   const { name, storeNumber, address, notes } = req.body; //creator and users[0]= uid
   const uid = req.userData.id;
   let user = await getUserById(uid);
-  console.log(user);
   if (!!user.error) {
     return next(new HttpError(user.errorMessage, user.errorCode));
   }
@@ -60,7 +59,36 @@ const editStore = async (req, res, next) => {};
 
 const deleteStore = async (req, res, next) => {};
 
-const getStore = async (req, res, next) => {};
+const getStore = async (req, res, next) => {
+  const { sid } = req.body; //creator and users[0]= uid
+  const uid = req.userData.id;
+  let user = await getUserById(uid);
+  if (!!user.error) {
+    return next(new HttpError(user.errorMessage, user.errorCode));
+  }
+
+  let accessLevel = false;
+  //checking if user has permission to access all of store
+  user.permissions.map((permission) => {
+    if (
+      (permission.storeId === "0" && permission.accessLevel === "admin") ||
+      (permission.storeId === sid && permission.accessLevel === "mech")
+    ) {
+      accessLevel = true;
+    }
+  });
+  var store;
+  try {
+    store = await Store.findOne({ storeNumber: sid });
+  } catch (error) {
+    return next(new HttpError("Could not locate store with store # ", 500));
+  }
+  //! later add it where they can get some info if they do not belong to store just not all
+  if (!accessLevel) {
+    return next(new HttpError("You dont have permission to access store", 401));
+  }
+  res.json(store);
+};
 
 exports.createStore = createStore;
 exports.editStore = editStore;
