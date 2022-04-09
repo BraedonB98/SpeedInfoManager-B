@@ -13,6 +13,7 @@ const app = express();
 const inventory = require("./routes/inventory-routes");
 const store = require("./routes/store-routes");
 const user = require("./routes/user-routes");
+const part = require("./routes/part-routes");
 
 //-----------------MiddleWare--------------------
 app.use(bodyParser.json());
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 app.use("/api/inventory", inventory);
 app.use("/api/store", store);
 app.use("/api/user", user);
+app.use("/api/part", part);
 //allows for a different body parser for sms so you can read messages
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.use("/sms", smsRoutes);

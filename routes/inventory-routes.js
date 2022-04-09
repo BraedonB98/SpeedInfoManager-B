@@ -8,13 +8,13 @@ const router = express.Router();
 
 router.post("/count/:sid", inventoryController.createCount); //starts new count
 
-router.patch("/count/item", inventoryController.countNext); //sets item count and returns next part in count if the part has already been counted update that part count and return next item
+router.patch("/countNext", inventoryController.countNext); //sets item count and returns next part in count if the part has already been counted update that part count and return next item
 
 router.patch("/count", inventoryController.editEntireCount); //manager only, edit entire count item
 
 router.delete("/count", inventoryController.deleteCount); //removes entire count item
 
-router.get("/count/postpone", inventoryController.postponeCount); //takes item out of to Count and adds it to postpone array
+router.get("/postpone", inventoryController.postponeCount); //takes item out of to Count and adds it to postpone array
 
 //count/complete, Will generate excel file, add store that the count belongs to, ext, Emails user a copy of finished excel document
 
