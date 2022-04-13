@@ -345,7 +345,7 @@ const defaultInventoryOrder = [
 //----------------------Controllers-------------------------
 
 const createStore = async (req, res, next) => {
-  const { name, storeNumber, address, notes } = req.body; //creator and users[0]= uid
+  const { name, address, notes } = req.body; //creator and users[0]= uid
   const uid = req.userData.id;
   let user = await getUserById(uid);
   if (!!user.error) {
@@ -363,6 +363,8 @@ const createStore = async (req, res, next) => {
       new HttpError("You dont have permission to create a store", 401)
     );
   }
+  //getting store number
+  const storeNumber = (await Store.countDocuments({})) + 1;
   //!need to turn location into coordinates with google api
   //Creating new store
   const createdStore = new Store({
@@ -393,7 +395,8 @@ const editStore = async (req, res, next) => {};
 const deleteStore = async (req, res, next) => {};
 
 const getStore = async (req, res, next) => {
-  const { sid } = req.body; //creator and users[0]= uid
+  console.log("getting store");
+  const sid = req.params.sid; //creator and users[0]= uid
   const uid = req.userData.id;
   let user = await getUserById(uid);
   if (!!user.error) {
@@ -405,7 +408,8 @@ const getStore = async (req, res, next) => {
   user.permissions.map((permission) => {
     if (
       (permission.storeId === "0" && permission.accessLevel === "admin") ||
-      (permission.storeId === sid && permission.accessLevel === "mech")
+      (permission.storeId === sid && permission.accessLevel === "mech") ||
+      (permission.storeId === sid && permission.accessLevel === "admin")
     ) {
       accessLevel = true;
     }

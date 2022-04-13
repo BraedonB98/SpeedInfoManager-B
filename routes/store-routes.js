@@ -14,6 +14,6 @@ router.patch("/Store/:sid", storeController.editStore);
 
 router.delete("/Store/:sid", storeController.deleteStore);
 
-router.get("/Store/:sid", storeController.getStore);
+router.get("/store/:sid", storeController.getStore);
 
 module.exports = router;
