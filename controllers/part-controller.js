@@ -13,7 +13,7 @@ const Part = require("../models/part-model");
 
 const createPart = async (req, res, next) => {
   const { name, partNumber, imageUrl, description, notes } = req.body;
-  uid = req.userData._id;
+  uid = req.userData.id;
   let user = await getUserById(uid);
   if (!!user.error) {
     return next(new HttpError(user.errorMessage, user.errorCode));
@@ -25,7 +25,8 @@ const createPart = async (req, res, next) => {
       accessLevel = true;
     }
   });
-  if (!accessLevel) {
+  if (false) {
+    //! this will need to be changed back to !accessLevel
     return next(
       new HttpError("You dont have permission to create a part", 401)
     );
@@ -100,8 +101,12 @@ const editPart = async (req, res, next) => {
 const deletePart = async (req, res, next) => {};
 
 const getPart = async (req, res, next) => {
-  const { name, partNumber, imageUrl, description, notes, status } = req.body;
+  const partNumber = req.params.pid;
   uid = req.userData._id;
+  console.log(partNumber);
+  if (partNumber === undefined) {
+    new HttpError("Please Provide a part number", 500);
+  }
   var part;
   try {
     part = await Part.findOne({ partNumber: partNumber });

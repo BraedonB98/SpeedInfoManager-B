@@ -71,7 +71,6 @@ const login = async (req, res, next) => {
   //check first login if true then change password
   const { employeeId, password } = req.body;
   console.log(employeeId);
-  console.log(password);
   //Locating User
   let existingUser;
   existingUser = await getUserByEID(employeeId);
