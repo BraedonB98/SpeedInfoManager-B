@@ -18,7 +18,7 @@ const Store = require("../models/store-model");
 const createCount = async (req, res, next) => {
   //dont need to check for duplicates because they are ok
   const { name, sid, notes } = req.body; //creator and users[0]= uid
-  uid = req.userData._id;
+  uid = req.userData.id;
 
   //Get Store
   var store;
@@ -39,17 +39,14 @@ const createCount = async (req, res, next) => {
   }
 
   //Get Store Item List
-  const StoreItemList = [store.inventoryOrder]; //!need to make this the count order (condensed to a 1d array)
-
+  const StoreItemList = await store.inventoryOrder; //!need to make this the count order (condensed to a 1d array)
   //Create Count
   const count = new Count({
     name,
-    creationDate: new Date(new Date().getTime()),
-    editLog: [{ time: new Date(new Date().getTime()), user: uid }],
+    creationDate: new Date(),
     creator: uid,
-    userInteraction: [uid],
-    notes,
-    store: sid,
+    //notes,
+    store: store._id,
     status: {
       toCount: StoreItemList,
       counted: [], //nothing has been counted yet
@@ -60,12 +57,14 @@ const createCount = async (req, res, next) => {
   //Sending new count to DB
   try {
     const sess = await mongoose.startSession();
-    sess.startTransaction();
+    await sess.startTransaction();
     await count.save({ session: sess });
     store.activeInventoryCount = count._id;
     await store.save({ session: sess });
     await sess.commitTransaction();
+
   } catch (error) {
+    //console.log(error);
     return next(new HttpError("Creating count failed", 500));
   }
   res.json(count);
