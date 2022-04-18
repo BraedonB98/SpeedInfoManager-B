@@ -19,7 +19,7 @@ const createPart = async (req, res, next) => {
     return next(new HttpError(user.errorMessage, user.errorCode));
   }
   let accessLevel = false;
-  //checking if user has permission to create store
+  //checking if user has permission to create part
   user.permissions.map((permission) => {
     if (permission.storeId === "0" && permission.accessLevel === "admin") {
       accessLevel = true;
@@ -31,6 +31,9 @@ const createPart = async (req, res, next) => {
       new HttpError("You dont have permission to create a part", 401)
     );
   }
+
+  //!make sure part is not already in data base!!!!!
+
   const part = new Part({
     name,
     partNumber,
@@ -103,6 +106,7 @@ const deletePart = async (req, res, next) => {};
 const getPart = async (req, res, next) => {
   const partNumber = req.params.pid;
   uid = req.userData._id;
+  console.log("running");
   console.log(partNumber);
   if (partNumber === undefined) {
     new HttpError("Please Provide a part number", 500);
