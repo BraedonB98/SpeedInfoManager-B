@@ -18,8 +18,8 @@ router.get("/postpone", inventoryController.postponeCount); //takes item out of 
 
 //count/complete, Will generate excel file, add store that the count belongs to, ext, Emails user a copy of finished excel document
 
-router.get("/count/:cid", inventoryController.getCount); //gets specific count by id
-
 router.patch("/undoCount", inventoryController.undoCount); //undoes the last nextCount submitted
+
+router.get("/:cid", inventoryController.getCount); //gets specific count by id
 
 module.exports = router;

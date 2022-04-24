@@ -106,7 +106,6 @@ const deletePart = async (req, res, next) => {};
 const getPart = async (req, res, next) => {
   const partNumber = req.params.pid;
   uid = req.userData._id;
-  console.log("running");
   console.log(partNumber);
   if (partNumber === undefined) {
     new HttpError("Please Provide a part number", 500);

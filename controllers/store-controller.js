@@ -395,7 +395,6 @@ const editStore = async (req, res, next) => {};
 const deleteStore = async (req, res, next) => {};
 
 const getStore = async (req, res, next) => {
-  console.log("getting store");
   const sid = req.params.sid; //creator and users[0]= uid
   const uid = req.userData.id;
   let user = await getUserById(uid);

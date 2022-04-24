@@ -62,7 +62,6 @@ const createCount = async (req, res, next) => {
     store.activeInventoryCount = count._id;
     await store.save({ session: sess });
     await sess.commitTransaction();
-
   } catch (error) {
     //console.log(error);
     return next(new HttpError("Creating count failed", 500));
@@ -79,31 +78,30 @@ const countNext = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError("Could not locate count ", 500));
   }
-  if (count.toCount.length === 0) {
-    if (count.postponed.length !== 0) {
-      count.toCount = count.postponed;
+  if (count.status.toCount.length === 0) {
+    if (count.status.postponed.length !== 0) {
+      count.status.toCount = count.status.postponed;
     } else {
       return next(
         new HttpError("Count Already finished please submit finish count", 409)
       );
     }
   }
-  if (count.toCount[0] !== pid) {
+  if (count.status.toCount[0] !== pid) {
     return next(new HttpError("Part number is not the next to count", 406));
   }
-  count.counted.push({ partNumber: pid, value: counted });
-  count.toCount.shift();
-
-  if (count.toCount.length === 0 && count.postponed.length === 0) {
-    //!generate file and close count
-  }
+  count.status.counted.push({ partNumber: pid, value: counted });
+  count.status.toCount.shift();
   try {
     await count.save();
   } catch (error) {
     return next(new HttpError("Count save failed", 500));
   }
-
-  res.json(count);
+  if (count.status.toCount !== null) {
+    res.json(count.status.toCount[0]);
+  } else {
+    res.json("Finished");
+  }
 };
 
 const editEntireCount = async (req, res, next) => {};
@@ -119,14 +117,14 @@ const postponeCount = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError("Could not locate count ", 500));
   }
-  if (count.toCount.length === 0) {
+  if (count.status.toCount.length === 0) {
     new HttpError("No Item to postpone", 404);
   }
-  if (count.toCount[0] !== pid) {
+  if (count.status.toCount[0] !== pid) {
     return next(new HttpError("Part number is not the next to count", 406));
   }
-  count.postponed.push(pid);
-  count.toCount.shift();
+  count.status.postponed.push(pid);
+  count.status.toCount.shift();
 
   try {
     await count.save();
@@ -137,7 +135,7 @@ const postponeCount = async (req, res, next) => {
 };
 
 const getCount = async (req, res, next) => {
-  const { cid } = req.body; // cid = count id
+  const cid = req.params.cid;
   uid = req.userData._id;
   var count;
   try {
@@ -150,7 +148,7 @@ const getCount = async (req, res, next) => {
 
 const undoCount = async (req, res, next) => {
   //removes previous nextCount
-  const { pid, cid, counted } = req.body; //pid = part number cid = count id
+  const { cid } = req.body; //pid = part number cid = count id
   uid = req.userData._id;
   var count;
   try {
@@ -158,17 +156,21 @@ const undoCount = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError("Could not locate count ", 500));
   }
-  if (count.counted.length === 0) {
+  if (count.status.counted.length === 0) {
     return next(new HttpError("No count to undo", 404));
   }
-  count.toCount.unshift(pid);
-  count.counted.pop();
+  console.log(count.status.counted[count.status.counted.length - 1].partNumber);
+  count.status.toCount.unshift(
+    count.status.counted[count.status.counted.length - 1].partNumber //get the last part number in the counter array
+  );
+  count.status.counted.pop();
   try {
     await count.save();
   } catch (error) {
     return next(new HttpError("Count save failed", 500));
   }
-  res.json(count);
+  console.log(count.status.toCount[0]);
+  res.json(count.status.toCount[0]);
 };
 
 exports.createCount = createCount;
