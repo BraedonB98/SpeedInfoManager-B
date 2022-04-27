@@ -39,7 +39,7 @@ const createCount = async (req, res, next) => {
   }
 
   //Get Store Item List
-  const StoreItemList = await store.inventoryOrder; //!need to make this the count order (condensed to a 1d array)
+  const StoreItemList = await store.countOrder;
   //Create Count
   const count = new Count({
     name,
