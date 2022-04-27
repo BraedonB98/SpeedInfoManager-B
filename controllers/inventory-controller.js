@@ -39,7 +39,16 @@ const createCount = async (req, res, next) => {
   }
 
   //Get Store Item List
-  const StoreItemList = await store.countOrder;
+  const Store3DItemList = await store.countOrder;
+  const StoreItemList = [];
+  Store3DItemList.map((section) => {
+    section.map((shelf) => {
+      shelf.map((item) => {
+        StoreItemList.push(item);
+      });
+    });
+  });
+
   //Create Count
   const count = new Count({
     name,

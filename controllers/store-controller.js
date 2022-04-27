@@ -48,7 +48,7 @@ const createStore = async (req, res, next) => {
       address,
       coordinates: null,
     },
-    countOrder: [],
+    countOrder: defaultCountOrder,
     inventoryOrder: defaultInventoryOrder,
     notes,
     activeInventoryCount: null,
@@ -96,6 +96,19 @@ const getStore = async (req, res, next) => {
   if (!accessLevel) {
     return next(new HttpError("You dont have permission to access store", 401));
   }
+  //console.log("updating store");
+  //------------------------This was used to update default Inventory Order and Count Order without recreating all stores-----------------
+  // const defaultInventoryOrder = defaultInventoryOrderJSON.defaultInventoryOrder;
+  // const defaultCountOrder = defaultCountOrderJSON.defaultCountOrder;
+  // store.countOrder = defaultCountOrder;
+  // store.inventoryOrder = defaultInventoryOrder;
+  // try {
+  //   await store.save();
+  // } catch (error) {
+  //   console.log("not updated");
+  //   return next(new HttpError("Creating store failed", 500));
+  // }
+
   res.json(store);
 };
 
