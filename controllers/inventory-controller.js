@@ -201,9 +201,8 @@ const undoCount = async (req, res, next) => {
     return next(new HttpError("Could not locate count ", 500));
   }
   if (count.status.counted.length === 0) {
-    return next(new HttpError("No count to undo", 404));
+    return next(new HttpError("No Previous Part", 400));
   }
-  console.log(count.status.counted[count.status.counted.length - 1].partNumber);
   count.status.toCount.unshift(
     count.status.counted[count.status.counted.length - 1].partNumber //get the last part number in the counter array
   );
