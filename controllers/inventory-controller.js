@@ -10,6 +10,9 @@ const getUserById = userController.getUserById;
 const HttpError = require("../models/http-error");
 const Count = require("../models/count-model");
 const Store = require("../models/store-model");
+const {
+  InviteContext,
+} = require("twilio/lib/rest/chat/v1/service/channel/invite");
 
 //-----------------------HelperFunctions-----------------------
 
@@ -113,12 +116,43 @@ const countNext = async (req, res, next) => {
   }
 };
 
+const closeCount = async (req, res, next) => {
+  //dont need to check for duplicates because they are ok
+  const { sid } = req.body; //creator and users[0]= uid
+  uid = req.userData.id;
+
+  //Get Store
+  var store;
+  try {
+    store = await Store.findOne({ storeNumber: sid });
+  } catch (error) {
+    return next(new HttpError("Could not locate store with store # ", 500));
+  }
+  //!make sure user has credentials to close a count
+  //making sure the store doest have an "open count"
+  if (!store.activeInventoryCount) {
+    return next(
+      new HttpError("You do not have an active inventory count", 400)
+    );
+  }
+
+  store.inventoryCountHistory.push(store.activeInventoryCount);
+  store.activeInventoryCount = null;
+  //Sending new count to DB
+  try {
+    await store.save();
+  } catch (error) {
+    return next(new HttpError("Closing count failed", 500));
+  }
+  res.json(store);
+};
+
 const editEntireCount = async (req, res, next) => {};
 
 const deleteCount = async (req, res, next) => {};
 
 const postponeCount = async (req, res, next) => {
-  const { pid, cid, counted } = req.body; //pid = part number cid = count id
+  const { pid, cid } = req.body; //pid = part number cid = count id
   uid = req.userData._id;
   var count;
   try {
@@ -132,8 +166,9 @@ const postponeCount = async (req, res, next) => {
   if (count.status.toCount[0] !== pid) {
     return next(new HttpError("Part number is not the next to count", 406));
   }
-  count.status.postponed.push(pid);
-  count.status.toCount.shift();
+  // count.status.postponed.push(pid);
+  // count.status.toCount.shift();
+  count.status.postponed.push(count.status.toCount.shift());
 
   try {
     await count.save();
@@ -189,3 +224,4 @@ exports.deleteCount = deleteCount;
 exports.postponeCount = postponeCount;
 exports.getCount = getCount;
 exports.undoCount = undoCount;
+exports.closeCount = closeCount;

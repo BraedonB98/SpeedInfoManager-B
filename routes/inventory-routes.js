@@ -12,6 +12,8 @@ router.patch("/countNext", inventoryController.countNext); //sets item count and
 
 router.patch("/count", inventoryController.editEntireCount); //manager only, edit entire count item
 
+router.patch("closecount", inventoryController.closeCount);
+
 router.delete("/count", inventoryController.deleteCount); //removes entire count item
 
 router.get("/postpone", inventoryController.postponeCount); //takes item out of to Count and adds it to postpone array
