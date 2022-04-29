@@ -12,7 +12,7 @@ router.patch("/countNext", inventoryController.countNext); //sets item count and
 
 router.patch("/count", inventoryController.editEntireCount); //manager only, edit entire count item
 
-router.patch("closecount", inventoryController.closeCount);
+router.patch("/closeCount", inventoryController.closeCount);
 
 router.delete("/count", inventoryController.deleteCount); //removes entire count item
 

@@ -9,10 +9,7 @@ const countSchema = new Schema({
     { type: Date, type: mongoose.Types.ObjectId, ref: "User", type: String },
   ],
   //ID
-  complete: {
-    spreadSheetLocation: { type: String },
-    //variation: [{ type: String }], //I think I will want this stored in the store object
-  },
+  complete: { type: String },
   creator: { type: mongoose.Types.ObjectId, ref: "User" },
   store: { type: mongoose.Types.ObjectId, ref: "Store" },
   notes: { type: String },

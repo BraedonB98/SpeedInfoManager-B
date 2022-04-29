@@ -128,23 +128,40 @@ const closeCount = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError("Could not locate store with store # ", 500));
   }
+  const cid = store.activeInventoryCount;
+  //Get Count
+  var count;
+  try {
+    count = await Count.findById(cid);
+  } catch (error) {
+    return next(new HttpError("Could not locate count ", 500));
+  }
+
   //!make sure user has credentials to close a count
-  //making sure the store doest have an "open count"
+
+  //making sure the store does have an "open count"
   if (!store.activeInventoryCount) {
     return next(
       new HttpError("You do not have an active inventory count", 400)
     );
   }
 
+  count.complete = "complete";
   store.inventoryCountHistory.push(store.activeInventoryCount);
   store.activeInventoryCount = null;
-  //Sending new count to DB
+  console.log(count);
+  //Closing count and store in DB
   try {
-    await store.save();
+    const sess = await mongoose.startSession();
+    await sess.startTransaction();
+    await count.save({ session: sess });
+    await store.save({ session: sess });
+    await sess.commitTransaction();
   } catch (error) {
     return next(new HttpError("Closing count failed", 500));
   }
-  res.json(store);
+
+  res.json(count);
 };
 
 const editEntireCount = async (req, res, next) => {};
