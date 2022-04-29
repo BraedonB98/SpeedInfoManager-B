@@ -96,8 +96,8 @@ const getStore = async (req, res, next) => {
   if (!accessLevel) {
     return next(new HttpError("You dont have permission to access store", 401));
   }
-  //console.log("updating store");
-  //------------------------This was used to update default Inventory Order and Count Order without recreating all stores-----------------
+  // console.log("updating store");
+  // // ------------------------This was used to update default Inventory Order and Count Order without recreating all stores-----------------
   // const defaultInventoryOrder = defaultInventoryOrderJSON.defaultInventoryOrder;
   // const defaultCountOrder = defaultCountOrderJSON.defaultCountOrder;
   // store.countOrder = defaultCountOrder;

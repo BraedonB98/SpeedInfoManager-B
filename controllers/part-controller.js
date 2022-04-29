@@ -11,6 +11,9 @@ const Part = require("../models/part-model");
 
 //----------------------Controllers-------------------------
 
+//----------------------JSON----------------------------------
+const partImportJSON = require("../json/partImport.json");
+
 const createPart = async (req, res, next) => {
   const { name, partNumber, imageUrl, description, notes } = req.body;
   uid = req.userData.id;
@@ -119,7 +122,31 @@ const getPart = async (req, res, next) => {
   res.json(part);
 };
 
+const importPart = async (req, res, next) => {
+  const partImport = partImportJSON.partImport;
+  //!does not currently check for duplicates
+  partImport.map(async (part) => {
+    const newPart = new Part({
+      name: part[1],
+      partNumber: part[0],
+      description: part[0],
+      notes: part[0],
+      status: "In Stock",
+    });
+    try {
+      await newPart.save();
+      console.log(newPart.name);
+    } catch (error) {
+      console.log(error);
+      return next(new HttpError("Creating part failed", 500));
+    }
+  });
+
+  res.json(partImport);
+};
+
 exports.createPart = createPart;
 exports.editPart = editPart;
 exports.deletePart = deletePart; //!this will need high authorization clearance
 exports.getPart = getPart;
+exports.importPart = importPart;

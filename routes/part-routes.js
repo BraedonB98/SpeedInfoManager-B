@@ -3,6 +3,7 @@ const express = require("express");
 const partController = require("../controllers/part-controller");
 const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
+//router.patch("/importParts", partController.importPart);//uncomment when importing parts with postman
 
 router.use(checkAuth); // every route after this requires an token
 

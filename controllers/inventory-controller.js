@@ -147,22 +147,19 @@ const closeCount = async (req, res, next) => {
   }
 
   count.complete = [];
+
   store.inventoryOrder.map((partNumber) => {
-    //if the part has been counted then push it onto array
-    let partWasCounted = count.counted.filter(
-      (partCount) => partCount.partNumber === partNumber
-    );
-    if (partWasCounted.length === 1) {
-      count.complete.push({
-        partNumber: partNumber,
-        counted: partWasCounted.value,
-      });
-    } else {
-      count.complete.push({
-        partNumber: partNumber,
-        counted: "0",
-      });
-    }
+    let found = count.status.counted.find((part) => {
+      return part.partNumber === partNumber;
+    });
+    // if (found) {
+    //   console.log(found);
+    // }
+
+    count.complete.push({
+      partNumber: partNumber,
+      counted: found ? found.value : 0,
+    });
   });
   store.inventoryCountHistory.push(store.activeInventoryCount);
   store.activeInventoryCount = null;
