@@ -9,7 +9,14 @@ const countSchema = new Schema({
     { type: Date, type: mongoose.Types.ObjectId, ref: "User", type: String },
   ],
   //ID
-  complete: { type: String },
+  complete: [
+    {
+      partNumber: { type: String },
+      description: { type: String },
+      counted: { type: String },
+      notes: { type: String },
+    },
+  ],
   creator: { type: mongoose.Types.ObjectId, ref: "User" },
   store: { type: mongoose.Types.ObjectId, ref: "Store" },
   notes: { type: String },

@@ -146,10 +146,26 @@ const closeCount = async (req, res, next) => {
     );
   }
 
-  count.complete = "complete";
+  count.complete = [];
+  store.inventoryOrder.map((partNumber) => {
+    //if the part has been counted then push it onto array
+    let partWasCounted = count.counted.filter(
+      (partCount) => partCount.partNumber === partNumber
+    );
+    if (partWasCounted.length === 1) {
+      count.complete.push({
+        partNumber: partNumber,
+        counted: partWasCounted.value,
+      });
+    } else {
+      count.complete.push({
+        partNumber: partNumber,
+        counted: "0",
+      });
+    }
+  });
   store.inventoryCountHistory.push(store.activeInventoryCount);
   store.activeInventoryCount = null;
-  console.log(count);
   //Closing count and store in DB
   try {
     const sess = await mongoose.startSession();
