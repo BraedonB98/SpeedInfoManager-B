@@ -5,7 +5,7 @@ const fileUpload = require("../middleware/file-upload");
 const checkAuth = require("../middleware/check-auth");
 
 const router = express.Router();
-//api/user/
+//api/user/ why are you failing here
 router.post("/login", userController.login);
 
 router.use(checkAuth); // every route after this requires an token
