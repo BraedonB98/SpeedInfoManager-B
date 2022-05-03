@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const fs = require("fs");
 const path = require("path"); //required for express static path for file accessing
 //------------------Models---------------------------
 const HttpError = require("./models/http-error");
@@ -41,7 +40,7 @@ app.use("/api/store", store);
 app.use("/api/user", user);
 app.use("/api/part", part);
 //allows for a different body parser for sms so you can read messages
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({ extended: false }));
 //app.use("/sms", smsRoutes);
 
 //-----------------Unknown Route Handling-------------------
@@ -75,5 +74,6 @@ mongoose
     app.listen(process.env.PORT || 5000);
   })
   .catch((error) => {
+    console.log("Fail to connect to DB");
     console.log(error);
   });
