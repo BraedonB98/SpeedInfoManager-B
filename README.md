@@ -2,7 +2,7 @@
 
 ![logo](./logo.svg)
 
-###### Backend Inventory and asset management system for a non disclosed company
+###### Backend Inventory and asset management system
 
 ## <!--    ...    -->MVP<!-- ... -->
 
@@ -98,6 +98,25 @@
 - Allow mechanics to leave notes about specific carts
   - Add filters so mechanics can not leave inappropriate comments using filters searching for specific words or phrases
 - Multiple "Stores" or "Locations" and have specific users allowed to access info across stores and some that will not.
+
+### Know Issues
+
+- createStore
+  --Need to create api key and make it so it will turn address into coordinates with google api
+  -inventory controller authorization
+  --Needs to have authorizations check implemented, currently it only checks that its a registered user, needs to check if the user has permission to be editing counts for the store requested
+  -count value storage
+  --Have counts be stored on the server locally until its either finished or until a specific amount of time has passed so it doesnt keep sending request to database
+  -check auth
+  --In most route files, check auth middleware is commented out for testing, will want to make sure to uncomment this so it is checking the users authentication before letting them make changes
+  -user image path
+  --make user image path open for api requests, currently users cant get access to user image/url
+  -add restart count function
+  --will remove the active count
+  -create part
+  --change access level check back from if(false) to the comment
+  -previous count
+  --Figure out why when previous part is ran it is console logging 3 times vs just 1 time
 
 ### V 1.01.00
 
